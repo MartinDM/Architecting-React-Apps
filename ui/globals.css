@@ -33,113 +33,113 @@ body {
 }
 
 @font-face {
-  font-family: "Hochstadt Serif";
+  font-family: 'Hochstadt Serif';
   font-style: normal;
   font-weight: normal;
-  src: url("../public/fonts/Hochstadt/Hochstadt-Serif.otf");
+  src: url('../public/fonts/Hochstadt/Hochstadt-Serif.otf');
 }
 
 @font-face {
-  font-family: "Hochstadt Serif Oblique";
+  font-family: 'Hochstadt Serif Oblique';
   font-style: italic;
   font-weight: normal;
-  src: url("../public/fonts/Hochstadt/Hochstadt-SerifOblique.otf");
+  src: url('../public/fonts/Hochstadt/Hochstadt-SerifOblique.otf');
 }
 
 @font-face {
-  font-family: "Hochstadt Rounded";
+  font-family: 'Hochstadt Rounded';
   font-style: normal;
   font-weight: normal;
-  src: url("../public/fonts/Hochstadt/Hochstadt-Rounded.otf");
+  src: url('../public/fonts/Hochstadt/Hochstadt-Rounded.otf');
 }
 
 @font-face {
-  font-family: "Hochstadt Rounded Oblique";
+  font-family: 'Hochstadt Rounded Oblique';
   font-style: italic;
   font-weight: normal;
-  src: url("../public/fonts/Hochstadt/Hochstadt-RoundedOblique.otf");
+  src: url('../public/fonts/Hochstadt/Hochstadt-RoundedOblique.otf');
 }
 
 @font-face {
-  font-family: "The Great Outdoors";
+  font-family: 'The Great Outdoors';
   font-style: normal;
   font-weight: normal;
-  src: url("../public/fonts/The-Great-Outdoors-(Intro-Rate)/TheGreatOutdoors-Regular.otf");
+  src: url('../public/fonts/The-Great-Outdoors-(Intro-Rate)/TheGreatOutdoors-Regular.otf');
 }
 
 @font-face {
-  font-family: "The Great Outdoors Rough";
+  font-family: 'The Great Outdoors Rough';
   font-style: normal;
   font-weight: normal;
-  src: url("../public/fonts/The-Great-Outdoors-(Intro-Rate)/TheGreatOutdoors-Rough-Regular.otf");
+  src: url('../public/fonts/The-Great-Outdoors-(Intro-Rate)/TheGreatOutdoors-Rough-Regular.otf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 100;
-  src: url("../public/fonts/WorkSans/WorkSans-Thin.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Thin.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 200;
-  src: url("../public/fonts/WorkSans/WorkSans-ExtraLight.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-ExtraLight.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 300;
-  src: url("../public/fonts/WorkSans/WorkSans-Light.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Light.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 400;
-  src: url("../public/fonts/WorkSans/WorkSans-Regular.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Regular.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 500;
-  src: url("../public/fonts/WorkSans/WorkSans-Medium.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Medium.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 600;
-  src: url("../public/fonts/WorkSans/WorkSans-SemiBold.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-SemiBold.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 700;
-  src: url("../public/fonts/WorkSans/WorkSans-Bold.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Bold.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 800;
-  src: url("../public/fonts/WorkSans/WorkSans-ExtraBold.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-ExtraBold.ttf');
 }
 
 @font-face {
-  font-family: "Work Sans";
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 900;
-  src: url("../public/fonts/WorkSans/WorkSans-Black.ttf");
+  src: url('../public/fonts/WorkSans/WorkSans-Black.ttf');
 }
 
 body {
   background-color: rgba(253, 246, 246, 1);
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 16px;
   margin: 0 auto;
   max-width: 1486px;
@@ -299,7 +299,7 @@ a.shop-dropdown span {
 }
 
 .carousel button {
-  background: url("../public/images/carousel-button-hollow.png") 50% 50%
+  background: url('../public/images/carousel-button-hollow.png') 50% 50%
     no-repeat;
   border: none;
   color: black;
@@ -312,13 +312,13 @@ a.shop-dropdown span {
 }
 
 .carousel .active-carousel-item {
-  background: url("../public/images/carousel-button-filled.png") 50% 50%
+  background: url('../public/images/carousel-button-filled.png') 50% 50%
     no-repeat;
 }
 
 .focused-message .logo {
   align-items: center;
-  background-image: url("../public/images/badge.png");
+  background-image: url('../public/images/badge.png');
   display: flex;
   height: 168px;
   justify-content: center;
@@ -328,7 +328,7 @@ a.shop-dropdown span {
 
 .focused-message .logo p {
   color: rgba(200, 125, 82, 1);
-  font-family: "The Great Outdoors", serif;
+  font-family: 'The Great Outdoors', serif;
   font-size: 100px;
   position: relative;
   top: -15px;
@@ -336,7 +336,7 @@ a.shop-dropdown span {
 }
 
 .focused-message h2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 36px;
   font-weight: 800;
   margin: 0 0 18px 0;
@@ -345,7 +345,7 @@ a.shop-dropdown span {
 }
 
 .focused-message p {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 24px;
   font-weight: 500;
   margin: 0;
@@ -405,6 +405,7 @@ a.shop-dropdown span {
   align-items: center;
   display: flex;
   justify-content: space-between;
+  color: black;
 }
 
 .pie-item div.pie-info h4 {
@@ -496,7 +497,7 @@ fieldset {
   width: 100%;
 }
 
-.form-wrapper input[type="submit"] {
+.form-wrapper input[type='submit'] {
   background-color: rgba(255, 208, 201, 1);
   border: 0;
   border-radius: 0;
@@ -687,7 +688,7 @@ fieldset {
   width: 120px;
 }
 
-.subtotal-wrapper input[type="submit"] {
+.subtotal-wrapper input[type='submit'] {
   background-color: rgba(255, 208, 201, 1);
   border: 0;
   border-radius: 0;

@@ -1,11 +1,11 @@
-import Image from "next/image";
-import Script from "next/script";
-import heroOneImage from "../public/images/Hero/hero1.jpg";
-import heroTwoImage from "../public/images/Hero/hero2.jpg";
-import heroThreeImage from "../public/images/Hero/hero3.jpg";
-import pieOneImage from "../public/images/Seasonal/pie-1.png";
-import pieTwoImage from "../public/images/Seasonal/pie-2.png";
-import pieThreeImage from "../public/images/Seasonal/pie-3.png";
+import Image from 'next/image';
+import Script from 'next/script';
+import heroOneImage from '../public/images/Hero/hero1.jpg';
+import heroTwoImage from '../public/images/Hero/hero2.jpg';
+import heroThreeImage from '../public/images/Hero/hero3.jpg';
+import pieOneImage from '../public/images/Seasonal/pie-1.png';
+import pieTwoImage from '../public/images/Seasonal/pie-2.png';
+import pieThreeImage from '../public/images/Seasonal/pie-3.png';
 
 export default function Home() {
   return (
