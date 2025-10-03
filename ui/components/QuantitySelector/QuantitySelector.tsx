@@ -59,7 +59,8 @@ export default function QuantitySelector({
           return response.json();
         },
         {
-          // Optimistic data: update cache immediately before API call completes
+          // Optimistic data: update cache immediately before API call completes.
+          // Once completed, the state is updated with actul result
           optimisticData: cartItems?.map((item) =>
             item.id === id ? { ...item, quantity: newQuantity } : item
           ),
@@ -86,7 +87,7 @@ export default function QuantitySelector({
         >
           -
         </button>
-        <span>{loading ? '...' : currentQuantity}</span>
+        <span>{currentQuantity}</span>
         <button
           onClick={() => {
             handleQuantityChange(currentQuantity + 1);
