@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 interface cartProps {
   id: string;
@@ -13,11 +13,15 @@ let cart: cartProps[] = [];
 
 // GET: Fetch current cart items
 export async function GET() {
+  console.log('GET cart called, current cart:', cart);
   return NextResponse.json(cart);
 }
 
 // POST: Add a new item to the cart
 export async function POST(request: Request) {
+  // Fake delay to simulate slow network (1 second)
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const { id, quantity, name, price, imageUrl } = await request.json();
 
   // Check if item already exists in the cart

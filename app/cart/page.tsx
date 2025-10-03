@@ -1,25 +1,20 @@
 'use client';
 import Image from 'next/image';
 import { CartItem } from '../../types/types';
-import useSWR from 'swr';
 import QuantitySelector from '../../ui/components/QuantitySelector/QuantitySelector';
+import { endpoints } from '../../lib/constants';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Cart() {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const url = endpoints.cart;
 
-  // Destruct from useSWR
-  const {
-    data: cartItems,
-    error,
-    mutate,
-  } = useSWR<CartItem[]>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
-    fetcher,
-    { revalidateOnFocus: true } // auto re-fetch when window is focussed
-  );
+  const { data, isLoading, error, isError, isPending } = useQuery<CartItem[]>({
+    queryKey: ['cartItems'],
+    queryFn: () => fetch(url).then((res) => res.json()),
+  });
 
-  if (error) return <div>Error</div>;
-  if (!cartItems) return <div>Loading cart items</div>;
+  if (isError) return <div>Error {error}</div>;
+  if (isLoading) return <div>Loading cart items</div>;
 
   return (
     <section className="main-content">
@@ -29,10 +24,10 @@ export default function Cart() {
       </h2>
       <div className="cart-wrapper">
         <div className="cart-items-wrapper">
-          {cartItems?.length === 0 ? (
+          {data?.length === 0 ? (
             <p>Basket is empty</p>
           ) : (
-            cartItems.map((item: CartItem) => {
+            data?.map((item: CartItem) => {
               return (
                 <div className="cart-item" key={item.id}>
                   <div className="cart-item-image-wrapper">

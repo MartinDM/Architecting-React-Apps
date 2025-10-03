@@ -2,7 +2,7 @@
 
 import { CartItem } from '@/types/types';
 import React, { useState } from 'react';
-import useSWR from 'swr';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 export default function QuantitySelector({
   id,
@@ -11,69 +11,42 @@ export default function QuantitySelector({
   name,
   imageUrl,
 }: CartItem) {
-  const [loading, setLoading] = useState(false);
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`;
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const {
+    data: cartItems,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['cartItems'],
+    queryFn: () => fetch(url).then((res) => res.json()),
+  });
 
-  // Get cart data from SWR cache - this is shared across all components
-  const { data: cartItems, mutate } = useSWR<CartItem[]>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
-    fetcher,
-    {
-      revalidateOnFocus: true,
-    }
-  );
+  const queryClient = useQueryClient();
 
-  // Get the current quantity from the SWR cache, not from local state
   const currentItem = cartItems?.find((item) => item.id === id);
   const currentQuantity = currentItem?.quantity ?? quantity;
 
+  const mutation = useMutation({
+    mutationFn: (newQuantity: number) =>
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          quantity: newQuantity,
+        }),
+      }).then((res) => res.json()),
+    onSuccess: (updatedCart) => {
+      queryClient.setQueryData(['cartItems'], updatedCart);
+    },
+  });
+
   const handleQuantityChange = async (newQuantity: number) => {
     if (newQuantity < 1) return;
-
-    setLoading(true);
-
-    try {
-      // Optimistic update: immediately update SWR cache for instant UI feedback
-      await mutate(
-        async () => {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
-            {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                id,
-                quantity: newQuantity,
-              }),
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error('Failed to update cart item');
-          }
-
-          // Return the updated cart data from the server
-          return response.json();
-        },
-        {
-          // Optimistic data: update cache immediately before API call completes.
-          // Once completed, the state is updated with actul result
-          optimisticData: cartItems?.map((item) =>
-            item.id === id ? { ...item, quantity: newQuantity } : item
-          ),
-          // Don't revalidate immediately, we'll get the server response
-          revalidate: false,
-        }
-      );
-    } catch (e) {
-      console.log(e);
-      // mutate will automatically revert the optimistic update on error
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate(newQuantity);
   };
 
   return (
@@ -83,7 +56,7 @@ export default function QuantitySelector({
           onClick={() => {
             handleQuantityChange(currentQuantity - 1);
           }}
-          disabled={loading || currentQuantity <= 1}
+          disabled={mutation.isPending || currentQuantity <= 1}
         >
           -
         </button>
@@ -92,7 +65,7 @@ export default function QuantitySelector({
           onClick={() => {
             handleQuantityChange(currentQuantity + 1);
           }}
-          disabled={loading}
+          disabled={mutation.isPending}
         >
           +
         </button>
