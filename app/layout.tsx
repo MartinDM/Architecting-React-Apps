@@ -1,17 +1,17 @@
-import "../ui/globals.css";
-import type { Metadata } from "next";
-import { localGreatOutdoors } from "../ui/fonts";
-import Link from "next/link";
-import Image from "next/image";
-import logoImage from "../public/images/logo.png";
-import searchIcon from "../public/images/search-icon.png";
-import profileIcon from "../public/images/profile-icon.png";
-import cartIcon from "../public/images/cart-icon.png";
-import Dropdown from "@/ui/components/Dropdown/Dropdown";
+import '../ui/globals.css';
+import type { Metadata } from 'next';
+import { localGreatOutdoors } from '../ui/fonts';
+import Link from 'next/link';
+import Image from 'next/image';
+import logoImage from '../public/images/logo.png';
+import searchIcon from '../public/images/search-icon.png';
+import profileIcon from '../public/images/profile-icon.png';
+import Dropdown from '@/ui/components/Dropdown/Dropdown';
+import CartIndicator from '../ui/components/CartIndicator/CartIndicator';
 
 export const metadata: Metadata = {
   title: "Bethany's Pie Shop",
-  description: "Created by Surya Consulting for Pluralsight",
+  description: 'Created by Surya Consulting for Pluralsight',
 };
 
 export default function RootLayout({
@@ -46,9 +46,7 @@ export default function RootLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/cart">
-                    <Image src={cartIcon} alt="shopping cart icon" />
-                  </Link>
+                  <CartIndicator />
                 </li>
               </ul>
             </div>
