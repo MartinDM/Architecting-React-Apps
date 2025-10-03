@@ -4,46 +4,72 @@ import { CartItem } from '@/types/types';
 import React, { useState } from 'react';
 import useSWR from 'swr';
 
-export default function QuantitySelector({ id, price, quantity }: CartItem) {
-  const [currentQuantity, setQuantity] = useState(quantity);
+export default function QuantitySelector({
+  id,
+  price,
+  quantity,
+  name,
+  imageUrl,
+}: CartItem) {
   const [loading, setLoading] = useState(false);
 
-  const { mutate } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  // Get cart data from SWR cache - this is shared across all components
+  const { data: cartItems, mutate } = useSWR<CartItem[]>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+    fetcher,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+
+  // Get the current quantity from the SWR cache, not from local state
+  const currentItem = cartItems?.find((item) => item.id === id);
+  const currentQuantity = currentItem?.quantity ?? quantity;
 
   const handleQuantityChange = async (newQuantity: number) => {
     if (newQuantity < 1) return;
 
     setLoading(true);
-    setQuantity(newQuantity);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+      // Optimistic update: immediately update SWR cache for instant UI feedback
+      await mutate(
+        async () => {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id,
+                quantity: newQuantity,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error('Failed to update cart item');
+          }
+
+          // Return the updated cart data from the server
+          return response.json();
+        },
         {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id,
-            quantity: newQuantity,
-          }),
+          // Optimistic data: update cache immediately before API call completes
+          optimisticData: cartItems?.map((item) =>
+            item.id === id ? { ...item, quantity: newQuantity } : item
+          ),
+          // Don't revalidate immediately, we'll get the server response
+          revalidate: false,
         }
       );
-
-      if (!response.ok) {
-        throw new Error('Failed to update cart item');
-      }
-      await response.json();
-
-      // Trigger SWR to refetch using mutate.
-      // Prevents full page reload by updating the data on the client.
-      // Updates the cart on the client side
-      mutate();
     } catch (e) {
       console.log(e);
-      // Revert quantity on error
-      setQuantity(quantity);
+      // mutate will automatically revert the optimistic update on error
     } finally {
       setLoading(false);
     }
