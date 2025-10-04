@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { CartItem } from '../../types/types';
+import type { CartItem } from '@/types';
 import QuantitySelector from '../../ui/components/QuantitySelector/QuantitySelector';
 import { endpoints } from '../../lib/constants';
 import { useQuery } from '@tanstack/react-query';
@@ -13,7 +13,8 @@ export default function Cart() {
     queryFn: () => fetch(url).then((res) => res.json()),
   });
 
-  if (isError) return <div>Error {error}</div>;
+  if (isError)
+    return <div>Error: {error?.message || 'Failed to load cart'}</div>;
   if (isLoading) return <div>Loading cart items</div>;
 
   return (

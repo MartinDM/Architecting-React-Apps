@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import type { CartItem } from '../../../types';
+import type { CartItem } from '@/types';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 type AddToCartButtonProps = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { CartItem } from '@/types/types';
+import type { CartItem } from '@/types';
 import React, { useState } from 'react';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
@@ -17,7 +17,7 @@ export default function QuantitySelector({
     data: cartItems,
     isPending,
     isError,
-  } = useQuery({
+  } = useQuery<CartItem[]>({
     queryKey: ['cartItems'],
     queryFn: () => fetch(url).then((res) => res.json()),
   });

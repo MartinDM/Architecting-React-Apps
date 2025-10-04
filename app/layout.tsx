@@ -12,7 +12,7 @@ import { QueryProvider } from './QueryProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const metadata: Metadata = {
-  title: "Bethany's Pie Shop",
+  title: 0,
   description: 'Created by Surya Consulting for Pluralsight',
 };
 
