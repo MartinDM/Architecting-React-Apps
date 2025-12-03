@@ -1,7 +1,6 @@
-"use client";
-
-import React, { useState } from "react";
-import useSWR from "swr";
+'use client';
+import useSWR from 'swr';
+import React, { useState } from 'react';
 
 type AddToCartButtonProps = {
   id: string;
@@ -18,7 +17,6 @@ export default function AddToCartButton({
 }: AddToCartButtonProps) {
   const [loading, setLoading] = useState(false);
 
-  // SWR mutate to revalidate
   const { mutate } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`);
 
   const handleAddToCart = async () => {
@@ -28,9 +26,9 @@ export default function AddToCartButton({
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application.json',
           },
           body: JSON.stringify({
             id,
@@ -43,14 +41,16 @@ export default function AddToCartButton({
       );
 
       if (!response.ok) {
-        throw new Error("Failed to add item to cart");
+        throw new Error('Failed to add item to cart');
       }
-
       await response.json();
-      // Trigger SWR to re-fetch the updated cart items
+
+      // Trigger SWR to refetch using mutate.
+      // Prevents full page reload by updating the data on the client.
+      // Updates the cart on the client side
       mutate();
-    } catch (error) {
-      console.error("Error adding item to cart", error);
+    } catch (e) {
+      console.log(e);
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,7 @@ export default function AddToCartButton({
     <div className="add-to-cart">
       <p>
         <button onClick={handleAddToCart} disabled={loading}>
-          {loading ? "Adding..." : "+ ADD TO CART"}
+          {loading ? 'Adding...' : '+ ADD TO CART'}
         </button>
       </p>
     </div>
