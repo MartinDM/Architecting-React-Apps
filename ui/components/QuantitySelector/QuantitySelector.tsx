@@ -28,8 +28,11 @@ export default function QuantitySelector({
   const currentQuantity = currentItem?.quantity ?? quantity;
 
   const mutation = useMutation({
-    mutationFn: (newQuantity: number) =>
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`, {
+    // Add a fake delay so the optimistic update is visible.
+    // MutationFn is the real call
+    mutationFn: async (newQuantity: number) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +41,45 @@ export default function QuantitySelector({
           id,
           quantity: newQuantity,
         }),
-      }).then((res) => res.json()),
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || 'Failed to update cart');
+      }
+      return res.json();
+    },
+    onMutate: async (newQuantity: number) => {
+      await queryClient.cancelQueries({ queryKey: ['cartItems'] });
+      const previousCart = queryClient.getQueryData(['cartItems']);
+      // Optimistically update the cache
+      queryClient.setQueryData(['cartItems'], (oldCart: any) => {
+        const existingItemIndex = oldCart.findIndex(
+          (item: CartItem) => item.id === id
+        );
+
+        if (existingItemIndex > -1) {
+          const updatedCart = [...oldCart];
+          updatedCart[existingItemIndex] = {
+            ...updatedCart[existingItemIndex],
+            quantity: newQuantity,
+          };
+          return updatedCart;
+        } else {
+          const newCart = [
+            ...oldCart,
+            { id, name, price, imageUrl, quantity: newQuantity },
+          ];
+          return newCart;
+        }
+      });
+      // Return context for rollback
+      return { previousCart };
+    },
+    onError: (_err, _vars, context: any) => {
+      if (context?.previousCart) {
+        queryClient.setQueryData(['cartItems'], context.previousCart);
+      }
+    },
     onSuccess: (updatedCart) => {
       queryClient.setQueryData(['cartItems'], updatedCart);
     },
